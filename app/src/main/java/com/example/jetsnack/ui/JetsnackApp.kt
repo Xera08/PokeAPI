@@ -60,8 +60,12 @@ import com.example.jetsnack.ui.theme.JetsnackTheme
 @Preview
 @Composable
 fun JetsnackApp() {
+
+
+
     JetsnackTheme {
         val jetsnackNavController = rememberJetsnackNavController()
+
         SharedTransitionLayout {
             CompositionLocalProvider(
                 LocalSharedTransitionScope provides this

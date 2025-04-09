@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PokemonsViewModel(
@@ -26,8 +27,14 @@ class PokemonsViewModel(
         viewModelScope.launch {
             pokemonsRepository.getPokemonList().collectLatest { result ->
                 when(result) {
-                    is Result.Error<*> -> TODO()
-                    is Result.Success<*> -> TODO()
+                    is Result.Error<*> -> {
+                        _showErrorToastChannel.send(true)
+                    }
+                    is Result.Success<*> -> {
+                        result.data?.let { pokemons ->
+                            _pokemons.update {pokemons}
+                        }
+                    }
                 }
             }
 
